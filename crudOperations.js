@@ -24,13 +24,14 @@ const createPost = async (post) => {
 };
 
 const updatePost = async (id, post) => {
-  const { title, content, cover } = post;
-  const { rows } = await pool.query(
-    'UPDATE posts SET title = $1, content = $2, cover = $3 WHERE id = $4 RETURNING *',
-    [title, content, cover, id]
-  );
-  return rows[0];
-};
+    const { title, author, content, cover } = post;
+    const { rows } = await pool.query(
+      'UPDATE posts SET title = $1, author = $2, content = $3, cover = $4 WHERE id = $5 RETURNING *',
+      [title, author, content, cover, id]
+    );
+    return rows[0];
+  };
+  
 
 const deletePost = async (id) => {
   const { rows } = await pool.query('DELETE FROM posts WHERE id = $1 RETURNING *', [id]);
