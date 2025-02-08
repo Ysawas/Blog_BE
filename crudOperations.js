@@ -14,6 +14,7 @@ const getPostById = async (id) => {
   return rows.length ? rows[0] : null;
 };
 
+/*
 const createPost = async (post) => {
   const { title, author, content, cover } = post;
   const { rows } = await pool.query(
@@ -22,6 +23,21 @@ const createPost = async (post) => {
   );
   return rows[0];
 };
+*/
+
+const createPost = async (post) => {
+    const { title, author, content, cover } = post;
+    try {
+      const { rows } = await pool.query(
+        'INSERT INTO posts (title, author, content, cover) VALUES ($1, $2, $3, $4) RETURNING *',
+        [title, author, content, cover]
+      );
+      return rows[0];
+    } catch (error) {
+      console.error('Error creating post:', error);
+      throw error;  // Rethrow or handle as needed
+    }
+  };
 
 const updatePost = async (id, post) => {
     const { title, author, content, cover } = post;
